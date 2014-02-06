@@ -23,10 +23,13 @@ def ssh_config(name=''):
 
 def list_vms():
     """
-    Count how many vagrant VMs are running and list hostnames
+    Find the hostnames of vagrant VMs that are currently running
     """
+    # TODO: switch to using --machine-readable when this feature
+    # stabalizes in the future
+    # http://docs.vagrantup.com/v2/cli/machine-readable.html
     with settings(hide('running')):
-        output = local('vagrant status | grep running', capture=True)
+        output = local("vagrant status | grep 'running (.*)'", capture=True)
 
     vms = []
     for line in output.splitlines():
